@@ -1,0 +1,4 @@
+<div *ngIf="notification" [ngClass]="notification.type" class="notification-container" >
+  <span>{{notification.message}}</span>
+  <button (click)="dismiss()" >*</button>
+</div>
