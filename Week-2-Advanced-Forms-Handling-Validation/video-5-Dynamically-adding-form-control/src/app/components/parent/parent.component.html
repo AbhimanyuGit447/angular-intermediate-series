@@ -1,0 +1,31 @@
+
+<button (click)="notifySucess()" >Show Success</button>
+<button (click)="notifyError()" >Show Error</button>
+
+<h2>parent Component</h2>
+<input type="text" [(ngModel)]="parentMessage" placeholder="type a message" >
+
+<app-child [message]="parentMessage" (replyEvent)="handleReply($event)"  ></app-child>
+
+<div *ngIf="childReply" >
+  <p> Child Replied : {{childReply}} </p>
+</div>
+
+<button (click)="updateChildDirectly()">Update Child Directly</button>
+
+
+<app-card>
+  <h4 #contentHeading>User profile</h4>
+  <p>the content is projecte from parent component</p>
+  <p>{{sharedMessage}}</p>
+  <app-child [message]="'i am projected inside a card'" ></app-child>
+</app-card>
+
+
+<app-card>
+  <h4 #contentHeading>app profile</h4>
+  <p>the content is projecte from parent component</p>
+  <p>{{sharedMessage}}</p>
+  <app-child [message]="'i am projected inside a card'" ></app-child>
+</app-card>
+
