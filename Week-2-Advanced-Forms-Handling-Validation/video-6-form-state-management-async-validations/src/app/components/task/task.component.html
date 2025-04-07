@@ -1,0 +1,10 @@
+<app-button label="Delete Task" type="danger" (action)="openDeleteModal()"></app-button>
+
+<app-modal
+#deleteModal
+title="Are you sure"
+(confirm)="onConfirmDelete()"
+(cancel)="onCancelDelete()"
+>
+<p>Do you really want to delete this task ?</p>
+</app-modal>

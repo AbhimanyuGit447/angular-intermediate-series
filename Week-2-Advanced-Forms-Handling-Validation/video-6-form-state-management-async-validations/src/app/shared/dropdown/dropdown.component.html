@@ -1,0 +1,3 @@
+<select #dropdown (change)="select.emit(dropdown.value)" >
+   <option *ngFor="let option of options" [value]="option">{{option}}</option>
+</select>
