@@ -1,0 +1,4 @@
+<label>{{question}}</label>
+<div *ngFor="let option of options"> 
+    <input type="radio" [value]="option"  [(ngModel)]="selectedAnswer">{{option}}
+</div>

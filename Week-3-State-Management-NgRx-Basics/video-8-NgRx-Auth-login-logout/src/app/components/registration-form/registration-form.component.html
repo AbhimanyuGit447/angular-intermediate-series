@@ -1,0 +1,33 @@
+<div class="form-styling">
+    <form [formGroup]="this.registrationForm"  (ngSubmit)="onSubmit()" >
+        <div class="form-field">
+            <label>Username</label>
+            <input formControlName="username" type="text"/>
+            <p style="color: red;" *ngIf="registrationForm.get('username')?.errors?.['userNameTaken']" >Username is taken</p>
+        </div>
+      
+        <div class="form-field">
+            <label>Email:</label>
+            <input formControlName="email" />
+        </div>
+   
+        <div class="form-field">
+            <label>Password:</label>
+            <input type="password" formControlName="password" />
+        </div>
+
+        <div formArrayName="addresses">
+            <div *ngFor="let address of addresses.controls; let i = index" >
+                <input [formControlName]="i" placeholder="Enter address">
+                <button type="button" (click)="removeAddress(i)" >Remove</button>
+            </div>
+
+            <button type="button" (click)="addAddress()" >Add</button>
+
+        </div>
+    
+        
+        <button type="submit" [disabled]="this.registrationForm.invalid" >Register</button>
+    </form>
+</div>
+

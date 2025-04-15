@@ -1,0 +1,20 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+    <div formArrayName="addresses" >
+        <div *ngFor="let address of addresses.controls; let i = index" [formGroupName]="i"  >
+            <label>Street</label>
+            <input type="text" formControlName="street" >
+
+            <label>City</label>
+            <input type="text" formControlName="city" >
+
+            <label>Zip</label>
+            <input type="text" formControlName="zip" >
+
+            <button type="button" (click)="removeAddress(i)" >Remove</button>
+        </div>
+    </div>
+
+    <button type="button"  (click)="addAddress()" >Add Address</button>
+    <button type="submit" [disabled]="form.invalid" >Submit</button>
+    
+</form>
