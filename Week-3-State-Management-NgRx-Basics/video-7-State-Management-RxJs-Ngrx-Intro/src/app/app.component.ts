@@ -1,35 +1,46 @@
 import { AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { NotificationService } from './services/notification.service';
 import { SurveyServiceService } from './services/survey-service.service';
+import { Observable } from 'rxjs';
+import { Task } from './models/task.model';
+import { Store } from '@ngrx/store';
+import { selectAllTasks, selectIcompleteTasksCount } from './task-store/task.selectors';
+import { addTask, removeTask, toggleTaskCompletion } from './task-store/task.actions';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit {
-  title = 'advanced-component-demo';
+export class AppComponent {
 
-  @ViewChild('surveyContainer', {read : ViewContainerRef}) container! : ViewContainerRef;
-
-  constructor(private surveyService : SurveyServiceService) { }
-
-  ngAfterViewInit(): void {
-    this.surveyService.setContainer(this.container);
-  }
+  newTaskDescription = '';
   
-  loadTextQuestion() {
-    this.surveyService.loadQuestion('text', 'What is your favourite color?')
+  allTasks$ : Observable<Task[]>;
+  incompleteTasksCount$ : Observable<number>;
+
+  constructor(private store : Store){
+    this.allTasks$ = this.store.select(selectAllTasks);
+    this.incompleteTasksCount$ = this.store.select(selectIcompleteTasksCount);
   }
 
-  loadMultipleChoice() {
-    this.surveyService.loadQuestion('multiple', 'which languagues do you speak?', ['english', 'spanish']);
+  addTask(){
+    const newTask : Task = {
+      id : Date.now().toString(),
+      description : this.newTaskDescription,
+      completed : false
+    }
+    this.store.dispatch(addTask({task : newTask}));
+    this.newTaskDescription = '';
   }
 
-  loadDropdown() {
-    this.surveyService.loadQuestion('dropdown', 'select your country', ['England', 'Spain', 'USA']);
+  removeTask(taskId : string){
+    this.store.dispatch(removeTask({taskId}));
   }
-  
+
+  toggleCompletion(taskId : string){
+    this.store.dispatch(toggleTaskCompletion({taskId}))
+  }
 
 }
 
