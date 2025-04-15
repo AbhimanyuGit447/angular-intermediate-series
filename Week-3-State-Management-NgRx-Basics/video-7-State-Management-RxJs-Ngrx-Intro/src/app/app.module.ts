@@ -19,6 +19,9 @@ import { DropdownQuestionComponent } from './components/dropdown-question/dropdo
 import { SignupComponent } from './components/signup/signup.component';
 import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
 import { RegistrationFormComponent } from './components/registration-form/registration-form.component';
+import { taskReducer } from './task-store/task.reducer';
+import { StoreModule } from '@ngrx/store';
+
 
 
 
@@ -43,10 +46,12 @@ import { RegistrationFormComponent } from './components/registration-form/regist
  
   ],
   imports: [
+  
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StoreModule.forRoot({tasks : taskReducer})
   ],
   providers: [],
   bootstrap: [AppComponent]
