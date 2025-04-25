@@ -28,8 +28,19 @@
 
 <app-sibling></app-sibling> -->
 
+<h1>NgRx Auth & Tasks</h1>
+<div>
+  <ng-container *ngIf="isAuthenticated$ | async; else loggedOutContent">
+    <p>Welcome back, <strong>{{username$ | async }}</strong></p>
+    <button (click)="logoutUser()" >Logout</button>
+  </ng-container>
+  <ng-template #loggedOutContent>
+    <p>You are not logged in.</p>
+    <button (click)="loginUser()">Login</button>
+  </ng-template>
+</div>
 
-<div class="container">
+<div *ngIf="isAuthenticated$ | async"  class="container">
     <h1>📝 My Task List</h1>
     <p class="subtitle">Incomplete Tasks: <strong>{{ incompleteTasksCount$ | async }}</strong></p>
   
@@ -55,6 +66,10 @@
         <button (click)="removeTask(task.id)" class="delete-btn">🗑️</button>
       </li>
     </ul>
+  </div>
+
+  <div *ngIf="!(isAuthenticated$ | async)" >
+    <p>please login to see your tasks</p>
   </div>
   
 

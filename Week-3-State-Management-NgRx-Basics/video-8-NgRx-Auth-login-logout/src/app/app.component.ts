@@ -6,6 +6,9 @@ import { Task } from './models/task.model';
 import { Store } from '@ngrx/store';
 import { selectAllTasks, selectIcompleteTasksCount } from './task-store/task.selectors';
 import { addTask, removeTask, toggleTaskCompletion } from './task-store/task.actions';
+import { AppState } from './app.state';
+import { selectIsAuthenticated, selectUsername } from './auth/auth.selectors';
+import { login, logout } from './auth/auth.actions';
 
 @Component({
   selector: 'app-root',
@@ -19,9 +22,28 @@ export class AppComponent {
   allTasks$ : Observable<Task[]>;
   incompleteTasksCount$ : Observable<number>;
 
-  constructor(private store : Store){
+  isAuthenticated$!  : Observable<boolean>;
+  username$! : Observable<string | null>;
+  
+
+  constructor(private store : Store<AppState>){
     this.allTasks$ = this.store.select(selectAllTasks);
     this.incompleteTasksCount$ = this.store.select(selectIcompleteTasksCount);
+
+    this.isAuthenticated$ = this.store.select(selectIsAuthenticated);
+    this.username$ = this.store.select(selectUsername);
+  }
+
+
+  loginUser(){
+    const name = prompt("Enter your username : ")
+    if(name){
+      this.store.dispatch(login({username : name.trim()}));
+    }
+  }
+
+  logoutUser(){
+    this.store.dispatch(logout());
   }
 
   addTask(){
