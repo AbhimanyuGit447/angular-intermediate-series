@@ -1,0 +1,75 @@
+<!-- 
+
+<button (click)="loadTextQuestion()"  >Load text Question</button>
+<button (click)="loadMultipleChoice()">Load Multiple Choice</button>
+<button (click)="loadDropdown()">Load Dropdown</button>
+
+<ng-template #surveyContainer></ng-template> -->
+
+<!-- <app-signup></app-signup> -->
+
+    <!-- <div class="dynamic-form">
+        <app-dynamic-form></app-dynamic-form>
+    </div> -->
+
+    <!-- <div class="dynamic-form">
+        <app-registration-form></app-registration-form>
+    </div> -->
+  
+
+
+
+
+<!-- <app-notification></app-notification>
+
+<app-task></app-task>
+
+<app-parent></app-parent>
+
+<app-sibling></app-sibling> -->
+
+<h1>NgRx Auth & Tasks</h1>
+<div>
+  <ng-container *ngIf="isAuthenticated$ | async; else loggedOutContent">
+    <p>Welcome back, <strong>{{username$ | async }}</strong></p>
+    <button (click)="logoutUser()" >Logout</button>
+  </ng-container>
+  <ng-template #loggedOutContent>
+    <p>You are not logged in.</p>
+    <button (click)="loginUser()">Login</button>
+  </ng-template>
+</div>
+
+<div *ngIf="isAuthenticated$ | async"  class="container">
+    <h1>📝 My Task List</h1>
+    <p class="subtitle">Incomplete Tasks: <strong>{{ incompleteTasksCount$ | async }}</strong></p>
+  
+    <div class="input-section">
+      <input
+        [(ngModel)]="newTaskDescription"
+        placeholder="Add a new task..."
+        class="task-input"
+      />
+      <button (click)="addTask()" class="add-btn">Add</button>
+    </div>
+  
+    <ul class="task-list">
+      <li *ngFor="let task of (allTasks$ | async)" class="task-item">
+        <label class="checkbox-wrapper">
+          <input
+            type="checkbox"
+            [checked]="task.completed"
+            (change)="toggleCompletion(task.id)"
+          />
+          <span [class.completed]="task.completed">{{ task.description }}</span>
+        </label>
+        <button (click)="removeTask(task.id)" class="delete-btn">🗑️</button>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="!(isAuthenticated$ | async)" >
+    <p>please login to see your tasks</p>
+  </div>
+  
+
