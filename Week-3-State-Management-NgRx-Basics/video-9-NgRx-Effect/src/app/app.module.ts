@@ -22,6 +22,9 @@ import { RegistrationFormComponent } from './components/registration-form/regist
 import { taskReducer } from './task-store/task.reducer';
 import { StoreModule } from '@ngrx/store';
 import { appReducer } from './app.reducer';
+import {HttpClientModule} from "@angular/common/http"
+import { EffectsModule } from '@ngrx/effects';
+import { TasksEffects } from './task-store/tasks.effects';
 
 
 
@@ -52,7 +55,9 @@ import { appReducer } from './app.reducer';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    StoreModule.forRoot(appReducer)
+    HttpClientModule,
+    StoreModule.forRoot(appReducer),
+    EffectsModule.forRoot([TasksEffects])
   ],
   providers: [],
   bootstrap: [AppComponent]

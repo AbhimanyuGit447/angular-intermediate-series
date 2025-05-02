@@ -4,8 +4,8 @@ import { SurveyServiceService } from './services/survey-service.service';
 import { Observable } from 'rxjs';
 import { Task } from './models/task.model';
 import { Store } from '@ngrx/store';
-import { selectAllTasks, selectIcompleteTasksCount } from './task-store/task.selectors';
-import { addTask, removeTask, toggleTaskCompletion } from './task-store/task.actions';
+import { selectAllTasks, selectIcompleteTasksCount, selectTaskError, selectTasksLoading } from './task-store/task.selectors';
+import { addTask, loadTask, removeTask, toggleTaskCompletion } from './task-store/task.actions';
 import { AppState } from './app.state';
 import { selectIsAuthenticated, selectUsername } from './auth/auth.selectors';
 import { login, logout } from './auth/auth.actions';
@@ -15,23 +15,34 @@ import { login, logout } from './auth/auth.actions';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   newTaskDescription = '';
   
-  allTasks$ : Observable<Task[]>;
-  incompleteTasksCount$ : Observable<number>;
+  allTasks$! : Observable<Task[]>;
+  incompleteTasksCount$! : Observable<number>;
+  tasksLoading$! : Observable<boolean>;
+  tasksErrors$! : Observable<any>;
 
   isAuthenticated$!  : Observable<boolean>;
   username$! : Observable<string | null>;
   
 
   constructor(private store : Store<AppState>){
+  
+  }
+
+  ngOnInit(): void {
     this.allTasks$ = this.store.select(selectAllTasks);
     this.incompleteTasksCount$ = this.store.select(selectIcompleteTasksCount);
 
     this.isAuthenticated$ = this.store.select(selectIsAuthenticated);
     this.username$ = this.store.select(selectUsername);
+
+    this.tasksLoading$ = this.store.select(selectTasksLoading);
+    this.tasksErrors$ = this.store.select(selectTaskError);
+
+    this.store.dispatch(loadTask());
   }
 
 

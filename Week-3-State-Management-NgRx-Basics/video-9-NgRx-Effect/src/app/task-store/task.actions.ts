@@ -15,3 +15,16 @@ export const toggleTaskCompletion = createAction(
     '[Tasks Page] toggle task Completion',
     props<{taskId : string}>()
 )
+
+export const loadTask = createAction(
+    '[Task API] Load Tasks'
+);
+
+export const loadTaskSuccess = createAction(
+    '[Tasks API] Load Tasks Success',
+    props<{tasks : Task[]}>()
+);
+export const loadTasksFailure = createAction(
+    '[Tasks API] Load Tasks Failure',
+    props<{ error: any }>()
+);

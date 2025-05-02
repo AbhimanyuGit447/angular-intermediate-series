@@ -14,3 +14,13 @@ export const selectIcompleteTasksCount = createSelector(
     selectAllTasks,
     tasks => tasks.filter(t => !t.completed).length
 );
+
+export const selectTasksLoading = createSelector(
+    selectTasksState,
+    (state : taskState) => state.loading
+)
+
+export const selectTaskError = createSelector(
+    selectTasksState,
+    (state : taskState) => state.error
+);
